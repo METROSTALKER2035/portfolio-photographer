@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Творчий блог фотографа</title>
+</head>
+<body>
+<header>
+    <h1>Фотоблог Сергія Афанасьєва</h1>
+    <nav>
+        <a href="#about">Про мене</a>
+        <a href="#projects">Проекти</a>
+        <a href="#contact">Контакти</a>
+    </nav>
+</header>
+<main>
+    <section id="about">
+        <h2>Про мене</h2>
+        <p>
+            Привіт! Я професійний фотограф із 5-річним досвідом створення 
+            авторських фотоальбомів, відео та інших творчих проєктів. На цьому 
+            сайті я ділюся проектами, над якими працюю, та своїми думками про мистецтво фотографії
+        </p>
+        <ul>
+            <li>Авторські фотоальбоми</li>
+            <li>Відео проєкти</li>
+            <li>Творчі фотосесії</li>
+        </ul>
+    </section>
+    <section id="projects">
+        <h2>Проєкти</h2>
+        <article>
+            <h3>Фотоальбом «Осінні кольори»</h3>
+            <p>Колаж з фото, які гармонічно відображають красу осіннього пейзажу та атмосферу цього сезону.</p>
+        </article>
+        <article>
+            <h3>Відео проєкт «Життя в кадрі»</h3>
+            <p>Короткометражний фільм про процес створення авторських фотоальбомів та історії, які розповідають про мистецтво фотографії.</p>
+        </article>
+    </section>
+    <section id="contact">
+        <h2>Контакти</h2>
+        <form action="#" method="post">
+            <label for="name">Ім'я *</label><br>
+            <input type="text" id="name" name="name" required minlength="2" maxlength="50"><br><br>
+
+            <label for="email">Електронна пошта *</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="topic">Тема звернення *</label><br>
+            <select id="topic" name="topic" required>
+                <option value="" disabled selected>Оберіть тему</option>
+                <option value="general">Загальне питання</option>
+                <option value="work">Замовлення / Пропозиція співпраці</option>
+            </select><br><br>
+
+            <label for="message">Повідомлення *</label><br>
+            <textarea id="message" name="message" required maxlength="500" rows="5"></textarea><br><br>
+
+            <button type="submit">Надіслати</button>
+        </form>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2026 Сергій Афанасьєв. Усі права захищено.</p>
+</footer>
+</body>
+</html>
