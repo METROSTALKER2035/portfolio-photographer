@@ -30,38 +30,58 @@
         </ul>
     </section>
     <section id="projects">
-        <h2>Проєкти</h2>
+    <h2>Проєкти</h2>
+    <div class="projects-list">
         <article>
-            <h3>Фотоальбом «Осінні кольори»</h3>
-            <p>Колаж з фото, які гармонічно відображають красу осіннього пейзажу та атмосферу цього сезону.</p>
+            <h3>Портретна фотосесія в студії</h3>
+            <p>Індивідуальна зйомка з професійним імпульсним світлом та роботою з позуванням.</p>
         </article>
         <article>
-            <h3>Відео проєкт «Життя в кадрі»</h3>
-            <p>Короткометражний фільм про процес створення авторських фотоальбомів та історії, які розповідають про мистецтво фотографії.</p>
+            <h3>Репортаж із весілля</h3>
+            <p>Збереження найяскравіших моментів вашого свята у живих, емоційних кадрах.</p>
         </article>
-    </section>
-    <section id="contact">
-        <h2>Контакти</h2>
-        <form action="#" method="post">
-            <label for="name">Ім'я *</label><br>
-            <input type="text" id="name" name="name" required minlength="2" maxlength="50"><br><br>
+        <article>
+            <h3>Пейзажна серія «Карпатські ранки»</h3>
+            <p>Художні фотографії дикої природи та ранкових туманів у горах.</p>
+        </article>
+        <article>
+            <h3>Предметна зйомка для бренду одягу</h3>
+            <p>Комерційні каталожні фото для інтернет-магазинів та соцмереж.</p>
+        </article>
+        <article>
+            <h3>Архітектурний urban-проєкт</h3>
+            <p>Зйомка сучасних міських пейзажів та урбаністичної геометрії.</p>
+        </article>
+    </div>
+</section>
 
-            <label for="email">Електронна пошта *</label><br>
-            <input type="email" id="email" name="email" required><br><br>
+<section id="contact">
+    <h2>Контакти</h2>
+    <form action="#" method="post">
+        <div class="form-row">
+            <div>
+                <label for="name">Ім'я *</label>
+                <input type="text" id="name" name="name" required minlength="2" maxlength="50">
+            </div>
+            <div>
+                <label for="email">Електронна пошта *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+        </div>
 
-            <label for="topic">Тема звернення *</label><br>
-            <select id="topic" name="topic" required>
-                <option value="" disabled selected>Оберіть тему</option>
-                <option value="general">Загальне питання</option>
-                <option value="work">Замовлення / Пропозиція співпраці</option>
-            </select><br><br>
+        <label for="topic">Тема звернення *</label>
+        <select id="topic" name="topic" required>
+            <option value="" disabled selected>Оберіть тему</option>
+            <option value="general">Загальне питання</option>
+            <option value="work">Замовлення / Пропозиція співпраці</option>
+        </select>
 
-            <label for="message">Повідомлення *</label><br>
-            <textarea id="message" name="message" required maxlength="500" rows="5"></textarea><br><br>
+        <label for="message">Повідомлення *</label>
+        <textarea id="message" name="message" required maxlength="500" rows="5"></textarea>
 
-            <button type="submit">Надіслати</button>
-        </form>
-    </section>
+        <button type="submit">Надіслати</button>
+    </form>
+</section>
 </main>
 <footer>
     <p>&copy; 2026 Сергій Афанасьєв. Усі права захищено.</p>

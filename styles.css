@@ -1,4 +1,4 @@
-/* 1. Базове скидання стилів (CSS Reset) */
+/* Базове скидання стилів (CSS Reset) */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,7 +9,7 @@ body {
     font-family: "Segoe UI", Arial, sans-serif;
     line-height: 1.5;
 }
-/* 2. Оголошення глобальних CSS-змінних */
+/* Оголошення глобальних CSS-змінних */
 :root {
     --color-primary: #1f3b57;
     --color-accent: #0EA5E9;  /*Акцентний колір 2-го варіанту*/
@@ -20,7 +20,7 @@ body {
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 32px;
-}/* 3. Базові стилі сторінки та макета */
+}/* Базові стилі сторінки та макета */
 body {
     background-color: var(--color-bg);
     color: var(--color-text);
@@ -59,11 +59,20 @@ footer {
     padding: var(--spacing-md);
     margin-top: var(--spacing-lg);
 }
-/* 4. Header та навігація (nav) */
+/* Header та навігація (nav) */
 header {
     background-color: var(--color-primary);
     color: white;
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
 }
 
 nav a {
@@ -83,7 +92,7 @@ nav a:focus {
     outline: 2px dashed var(--color-accent);
     outline-offset: 4px;
 }
-/* 5. Заголовки */
+/* Заголовки */
 h1, h2, h3 {
     font-family: var(--font-heading);
     color: var(--color-primary);
@@ -91,7 +100,7 @@ h1, h2, h3 {
 
 header h1 {
     color: white;
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: 0;
 }
 
 h2 {
@@ -104,7 +113,7 @@ h2 {
 h3 {
     margin-bottom: var(--spacing-sm);
 }
-/* 6. Стиль форми зворотного зв'язку */
+/* Стиль форми зворотного зв'язку */
 form br {
     display: none;
 }
@@ -149,7 +158,7 @@ button {
 button:hover {
     opacity: 0.85;
 }
-/* 7. Картки проектів */
+/* Картки проектів */
 #projects article {
     background-color: var(--color-bg);
     border: 1px solid #e0e0e0;
@@ -161,4 +170,61 @@ button:hover {
 
 #projects article:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.projects-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+#projects article {
+    flex: 1 1 250px;
+    background-color: white;
+    border: 1px solid var(--color-border, #dee2e6);
+    border-radius: 8px;
+    padding: var(--spacing-md);
+    transition: box-shadow 0.2s ease;
+}
+
+#projects article:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Рядок форми для імені та пошти */
+form br {
+    display: none;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.form-row input {
+    margin-bottom: 0;
+}
+
+/* Індивідуальний запит (700px) */
+@media (min-width: 700px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    nav {
+        flex-direction: row;
+        gap: var(--spacing-md);
+    }
+    
+    .form-row {
+        flex-direction: row;
+    }
+    
+    .form-row > div {
+        flex: 1;
+    }
 }
