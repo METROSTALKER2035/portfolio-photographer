@@ -93,6 +93,12 @@ async function searchCharacters(query, url = null, append = false) {
     lastAction = () => searchCharacters(query, url, append);
 
     setStatus("loading");
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    if (!append) {
+        resultBox.replaceChildren();
+        loadMoreBtn.hidden = true;
+    }
     if (!append) {
         resultBox.replaceChildren();
         loadMoreBtn.hidden = true;
