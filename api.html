@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REST API через Fetch — ЛР8</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="api.css" />
+    <script src="api.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Портфоліо фотографа — Лабораторна робота № 8</h1>
+        <nav>
+            <a href="index.html">Головна (Портфоліо)</a>
+            <a href="dashboard.html">Дашборд</a>
+            <a href="lab6.html">Конвертер і каталог</a>
+            <a href="todo.html">Список задач</a>
+            <a href="api.html">Робота з АРІ</a>
+        </nav>
+    </header>
+    <main class="app">
+        <section id="api-section">
+            <h2 id="app-title">Пошук персонажів Rick and Morty API</h2>
+            <form id="search-form" novalidate>
+                <label for="query-input" id="query-label">Ім'я персонажа</label>
+                <input id="query-input" type="search" maxlength="60" autocomplete="off" placeholder="Наприклад, Rick або Morty" />
+                <button type="submit" id="submit-btn">Знайти</button>
+            </form>
+            <p id="form-error" class="error" role="alert"></p>
+
+            <!-- Область відображення станів loading / empty / error -->
+            <div id="status" role="status" aria-live="polite"></div>
+
+            <!-- Основний контейнер результатів із сіткою карток -->
+            <section id="result" aria-live="polite"></section>
+
+            <!-- Кнопка додаткової функції А (Пагінація «Показати ще») -->
+            <div class="pagination-box">
+                <button type="button" id="load-more-btn" hidden>Показати ще</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Сергій Афанасьєв • Група КІ-24-1 • Лабораторна робота № 8</p>
+    </footer>
+</body>
+</html>
