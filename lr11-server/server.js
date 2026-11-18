@@ -1,20 +1,19 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import path from 'node:path';
+import Photoshoot from './models/Photoshoot.js';
+
+const PORT = Number(process.env.PORT) || 3002;
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.error('Не задано MONGODB_URI. Створіть файл .env за зразком .env.example');
+  process.exit(1);
+}
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3002;
 
-const photoshoots = [
-  { id: 1, title: 'Індивідуальний портрет у студії', category: 'Портретна', price: 2500 },
-  { id: 2, title: 'Весільна прогулянка в центрі міста', category: 'Весільна', price: 6500 },
-  { id: 3, title: 'Love Story на заході сонця', category: 'Романтична', price: 3200 },
-  { id: 4, title: 'Сімейна фотосесія в парку', category: 'Сімейна', price: 2800 },
-  { id: 5, title: 'Предметна зйомка для бренду одягу', category: 'Комерційна', price: 4500 },
-];
-
-let nextId = photoshoots.length + 1;
-
-// Middleware логування Тип 2
+// Middleware логування
 function logger(req, res, next) {
   res.on('finish', () => {
     console.log(
@@ -26,87 +25,65 @@ function logger(req, res, next) {
 
 app.use(logger);
 app.use(express.json());
-// роздача статичних файлів портфоліо
 app.use(express.static(path.join(import.meta.dirname, 'public')));
 
-// Список фотосесій + пошук ?q= за полем title
-app.get('/api/photoshoots', (req, res) => {
-  const { q } = req.query;
-  if (q) {
-    const search = String(q).trim().toLowerCase();
-    const result = photoshoots.filter((p) =>
-      p.title.toLowerCase().includes(search)
-    );
-    return res.json(result);
-  }
+// Екранує спеціальні символи регулярних виразів у пошуковому запиті
+const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// Список фотосесій із пошуком (?q=) та обмеженням кількості (?limit=)
+app.get('/api/photoshoots', async (req, res) => {
+  const { q, limit } = req.query;
+  const filter = q ? { title: { $regex: escapeRegex(String(q)), $options: 'i' } } : {};
+  const max = Math.min(Number(limit) || 50, 100);
+
+  const photoshoots = await Photoshoot.find(filter).sort({ createdAt: -1 }).limit(max);
   res.json(photoshoots);
 });
 
-// Створення нового запису (POST) із валідацією
-app.post('/api/photoshoots', (req, res) => {
-  const { title, category, price } = req.body ?? {};
+// Отримання однієї фотосесії за ідентифікатором ObjectId
+app.get('/api/photoshoots/:id', async (req, res) => {
+  const { id } = req.params;
 
-  if (
-    typeof title !== 'string' || title.trim() === '' ||
-    typeof category !== 'string' || category.trim() === ''
-  ) {
-    return res.status(400).json({
-      error: "Поля title і category є обов'язковими і мають бути непорожніми рядками",
-    });
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(400).json({ error: 'Некоректний формат id' });
   }
 
-  if (typeof price !== 'number' || !Number.isFinite(price) || price <= 0) {
-    return res.status(400).json({
-      error: "Поле price є обов'язковим і має бути додатним числом (тип number)",
-    });
-  }
-
-  const photoshoot = {
-    id: nextId++,
-    title: title.trim(),
-    category: category.trim(),
-    price,
-  };
-
-  photoshoots.push(photoshoot);
-  res.status(201).json(photoshoot);
-});
-
-// Один запис за :id
-app.get('/api/photoshoots/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const photoshoot = photoshoots.find((p) => p.id === id);
-
+  const photoshoot = await Photoshoot.findById(id);
   if (!photoshoot) {
-    return res.status(404).json({
-      error: `Фотосесію з id=${req.params.id} не знайдено`,
-    });
+    return res.status(404).json({ error: `Фотосесію з id=${id} не знайдено` });
   }
 
   res.json(photoshoot);
 });
 
-// навмисна помилка для перевірки статусу 500
+// Створення нового запису
+app.post('/api/photoshoots', async (req, res) => {
+  const { title, category, price } = req.body ?? {};
+  const photoshoot = await Photoshoot.create({ title, category, price });
+  res.status(201).json(photoshoot);
+});
+
+// Навмисна помилка для перевірки централізованого обробника помилок 500
 app.get('/api/error', () => {
   throw new Error('Тестова помилка сервера');
 });
 
-// обробка неіснуючих маршрутів (404)
+// Обробник 404
 app.use((req, res) => {
-  res.status(404).json({
-    error: 'Маршрут не знайдено',
-    path: req.originalUrl,
-  });
+  res.status(404).json({ error: 'Маршрут не знайдено', path: req.originalUrl });
 });
 
-// централізований обробник помилок
+// Централізований обробник помилок
 app.use((err, req, res, next) => {
   console.error(err);
 
   if (err.type === 'entity.parse.failed') {
-    return res.status(400).json({
-      error: 'Некоректний JSON у тілі запиту',
-    });
+    return res.status(400).json({ error: 'Некоректний JSON у тілі запиту' });
+  }
+
+  if (err.name === 'ValidationError') {
+    const details = Object.values(err.errors).map((e) => e.message);
+    return res.status(400).json({ error: 'Дані не пройшли перевірку', details });
   }
 
   const status = err.status ?? 500;
@@ -114,6 +91,15 @@ app.use((err, req, res, next) => {
     error: status === 500 ? 'Внутрішня помилка сервера' : err.message,
   });
 });
+
+// з'єднання з базою даних і запускаємо сервер
+try {
+  await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 8000 });
+  console.log(`Підключено до MongoDB, база даних: ${mongoose.connection.name}`);
+} catch (err) {
+  console.error('Не вдалося підключитися до MongoDB:', err.message);
+  process.exit(1);
+}
 
 app.listen(PORT, () => {
   console.log(`Сервер запущено: http://localhost:${PORT}`);
