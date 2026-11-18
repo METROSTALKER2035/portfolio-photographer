@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Творчий блог фотографа</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <h1>Фотоблог Сергія Афанасьєва</h1>
+    <nav>
+        <a href="#about">Про мене</a>
+        <a href="#projects">Проекти</a>
+        <a href="#contact">Контакти</a>
+        <a href="dashboard.html">Дашборд</a>
+        <a href="lab6.html">Конвертер і каталог</a>
+        <a href="todo.html">Список задач</a>
+        <a href="api.html">Робота з АРІ</a>
+    </nav>
+</header>
+<main>
+    <section id="about">
+        <h2>Про мене</h2>
+        <p>
+            Привіт! Я професійний фотограф із 5-річним досвідом створення 
+            авторських фотоальбомів, відео та інших творчих проєктів. На цьому 
+            сайті я ділюся проектами, над якими працюю, та своїми думками про мистецтво фотографії
+        </p>
+        <ul>
+            <li>Авторські фотоальбоми</li>
+            <li>Відео проекти</li>
+            <li>Творчі фотосесії</li>
+        </ul>
+    </section>
+    <section id="projects">
+    <h2>Проєкти</h2>
+    <div class="projects-list">
+        <article>
+            <h3>Портретна фотосесія в студії</h3>
+            <p>Індивідуальна зйомка з професійним імпульсним світлом та роботою з позуванням.</p>
+        </article>
+        <article>
+            <h3>Репортаж із весілля</h3>
+            <p>Збереження найяскравіших моментів вашого свята у живих, емоційних кадрах.</p>
+        </article>
+        <article>
+            <h3>Пейзажна серія «Карпатські ранки»</h3>
+            <p>Художні фотографії дикої природи та ранкових туманів у горах.</p>
+        </article>
+        <article>
+            <h3>Предметна зйомка для бренду одягу</h3>
+            <p>Комерційні каталожні фото для інтернет-магазинів та соцмереж.</p>
+        </article>
+        <article>
+            <h3>Архітектурний urban-проєкт</h3>
+            <p>Зйомка сучасних міських пейзажів та урбаністичної геометрії.</p>
+        </article>
+    </div>
+</section>
+
+<section id="contact">
+    <h2>Контакти</h2>
+    <form action="#" method="post">
+        <div class="form-row">
+            <div>
+                <label for="name">Ім'я *</label>
+                <input type="text" id="name" name="name" required minlength="2" maxlength="50">
+            </div>
+            <div>
+                <label for="email">Електронна пошта *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+        </div>
+
+        <label for="topic">Тема звернення *</label>
+        <select id="topic" name="topic" required>
+            <option value="" disabled selected>Оберіть тему</option>
+            <option value="general">Загальне питання</option>
+            <option value="work">Замовлення / Пропозиція співпраці</option>
+        </select>
+
+        <label for="message">Повідомлення *</label>
+        <textarea id="message" name="message" required maxlength="500" rows="5"></textarea>
+
+        <button type="submit">Надіслати</button>
+    </form>
+</section>
+</main>
+<footer>
+    <p>&copy; 2026 Сергій Афанасьєв. Усі права захищено.</p>
+</footer>
+</body>
+</html>

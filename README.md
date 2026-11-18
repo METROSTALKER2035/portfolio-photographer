@@ -57,3 +57,10 @@
 - завантаження початкових даних із REST API (`JSONPlaceholder`) через `useEffect` із підтримкою скасування запиту (`AbortController`) та станів `loading`, `error`, `success`;
 - обчислення видимого списку `visibleTodos` та лічильників як похідних даних;
 - автоматичне збереження та ліниве відновлення стану з `localStorage`.
+## Лабораторна робота № 11 — Серверна частина на Node.js та Express
+
+### Запуск сервера
+```bash
+cd lr11-server
+npm install
+npm run dev
