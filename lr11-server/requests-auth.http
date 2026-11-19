@@ -1,0 +1,69 @@
+@host = http://localhost:3002
+@token = {{login.response.body.$.token}}
+@photoshootId = 6aff65b455bb486b406afacc
+
+### 1. Реєстрація нового користувача (201 Created, без passwordHash)
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Тестовий фотограф",
+  "email": "test@example.com",
+  "password": "Password!"
+}
+
+### 2. Вхід як Аліса (200 OK із JWT-токеном)
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "password": "Password!"
+}
+
+### 3. Вхід із хибним паролем (401 Unauthorized)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "password": "WrongPassword123"
+}
+
+### 4. Профіль поточного користувача (200 OK)
+GET {{host}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### 5. Мої фотосесії (200 OK)
+GET {{host}}/api/photoshoots/mine
+Authorization: Bearer {{token}}
+
+### 6. Створення фотосесії з токеном (201 Created, власник із токена)
+POST {{host}}/api/photoshoots
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Вечірня портретна зйомка",
+  "category": "portrait",
+  "price": 3400
+}
+
+### 7. Створення фотосесії без токена (401 Unauthorized + WWW-Authenticate: Bearer)
+POST {{host}}/api/photoshoots
+Content-Type: application/json
+
+{
+  "title": "Зйомка без токена",
+  "category": "studio",
+  "price": 2000
+}
+
+### 8. Спроба власника (alice) видалити свій запис — Правило Типу 2 (403 Forbidden)
+DELETE {{host}}/api/photoshoots/{{photoshootId}}
+Authorization: Bearer {{token}}
+
+### 9. Список усіх користувачів (лише для admin@example.com -> 200 OK, для user -> 403)
+GET {{host}}/api/auth/users
+Authorization: Bearer {{token}}

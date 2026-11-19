@@ -26,6 +26,12 @@ const photoshootSchema = new mongoose.Schema(
       min: [0, 'price: не менше 0'],
       max: [100000, 'price: не більше 100000'],
     },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'У запису має бути власник'],
+      index: true,
+    },
   },
   {
     timestamps: true,

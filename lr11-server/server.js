@@ -1,15 +1,21 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'node:path';
+import authRouter from './routes/auth.js';
 import photoshootsRouter from './routes/photoshoots.js';
 import { logger } from './middleware/logger.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 const PORT = Number(process.env.PORT) || 3002;
-const MONGODB_URI = process.env.MONGODB_URI;
+const { MONGODB_URI, JWT_SECRET } = process.env;
 
 if (!MONGODB_URI) {
   console.error('Не задано MONGODB_URI. Створіть файл .env за зразком .env.example');
+  process.exit(1);
+}
+
+if (!JWT_SECRET || JWT_SECRET.length < 32) {
+  console.error('JWT_SECRET не задано або він коротший за 32 символи. Див. .env.example');
   process.exit(1);
 }
 
@@ -19,6 +25,7 @@ app.use(logger);
 app.use(express.json({ limit: '10kb' }));
 app.use(express.static(path.join(import.meta.dirname, 'public')));
 
+app.use('/api/auth', authRouter);
 app.use('/api/photoshoots', photoshootsRouter);
 
 // Навмисна помилка для перевірки централізованого обробника помилок (500)
