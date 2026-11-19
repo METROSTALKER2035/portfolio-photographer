@@ -125,3 +125,42 @@ npm run dev
   * `alice@example.com` (роль `user`)
   * `bob@example.com` (роль `user`)
 * **Команди запуску:** `npm run seed`, `npm run dev`, автоматична перевірка безпеки: `npm run check`.
+
+# Портфоліо фотографа — Каталог фотосесій (Фінальний fullstack-проєкт)
+
+Fullstack-вебзастосунок: клієнтська частина на React 19 (Vite), REST API на Node.js + Express 5, хмарна база даних MongoDB Atlas (Mongoose 9), автентифікація та авторизація за JWT.
+
+**Працюючий клієнтський застосунок:** https://portfolio-photographer-1p2a.netlify.app/  
+**Сервер REST API:** https://portfolio-photographer-api.onrender.com (перевірка стану: https://portfolio-photographer-api.onrender.com/health)
+
+> Примітка: сервер працює на безкоштовному тарифному плані Render, тому перший запит після 15 хвилин простою може тривати до 40–60 секунд (cold start).
+
+## Використані технології
+React 19 · Vite · Node.js · Express 5 · Mongoose 9 · MongoDB Atlas · JWT · bcrypt · CORS
+
+## Архітектура розгорнутого застосунку
+Браузер користувача → Netlify (статичний React SPA з CDN) → Render (Node.js + Express REST API) → MongoDB Atlas (хмарна БД `lr15`)
+
+## Запуск проєкту локально
+1. **Серверна частина:** перейдіть у папку `cd lr11-server`, виконайте `npm install`, створіть файл `.env` за зразком `.env.example`, заповніть базу початковими даними `npm run seed` та запустіть сервер `npm run dev` (порт `3002`).
+2. **Клієнтська частина:** у новому терміналі перейдіть у папку `cd client`, виконайте `npm install` та запустіть клієнт `npm run dev` (відкриється http://localhost:5173).
+
+## Змінні середовища
+| Змінна | Де зберігається | Призначення |
+| :--- | :--- | :--- |
+| `MONGODB_URI` | Сервер (Render) | Рядок підключення до кластера MongoDB Atlas (секрет) |
+| `JWT_SECRET` | Сервер (Render) | Ключ підпису JWT-токенів довжиною не менше 32 символів (секрет) |
+| `CLIENT_ORIGIN` | Сервер (Render) | Дозволений origin клієнтського застосунку для CORS |
+| `NODE_ENV` | Сервер (Render) | Режим середовища (`production`) |
+| `VITE_API_URL` | Клієнт (Netlify) | Публічна адреса сервера АРІ (вшивається у клієнт під час збірки) |
+
+## Документація REST API
+Колекція варіанта: `/api/photoshoots` (поля: `title`, `category`, `price`; посторінкова пагінація з параметрами `page`, `limit` та заголовком `X-Total-Count`). Специфікацію всіх маршрутів та рівнів доступу наведено нижче у розділах ЛР № 13–14.
+
+## Демонстраційні облікові записи (створюються скриптом seed.js)
+* Звичайний користувач: `alice@example.com` / пароль: `Password!`
+* Звичайний користувач: `bob@example.com` / пароль: `Password!`
+* Адміністратор: `admin@example.com` / пароль: `Password!`
+
+## Автор
+Афанасьєв Сергій Олександрович, група КІ-24-1, Варіант № 2
