@@ -1,0 +1,49 @@
+@host = http://localhost:3002
+@id = 6aff3eea0362a7b47894af3c
+
+### 1. Список фотосесій (пагінація, фільтр та сортування)
+GET {{host}}/api/photoshoots?limit=5&sort=-createdAt
+
+### 2. Створення нової фотосесії (POST -> 201 Created + Location, при повторі -> 409 Conflict)
+POST {{host}}/api/photoshoots
+Content-Type: application/json
+
+{
+  "title": "Нічна фотосесія у неонах 2",
+  "category": "portrait",
+  "price": 3500
+}
+
+### 3. Отримання однієї фотосесії за id (GET -> 200 OK)
+GET {{host}}/api/photoshoots/{{id}}
+
+### 4. Повна заміна запису (PUT -> 200 OK)
+PUT {{host}}/api/photoshoots/{{id}}
+Content-Type: application/json
+
+{
+  "title": "Нічна фотосесія у неонах 2",
+  "category": "studio",
+  "price": 4200
+}
+
+### 5. Часткове оновлення запису (PATCH -> 200 OK)
+PATCH {{host}}/api/photoshoots/{{id}}
+Content-Type: application/json
+
+{
+  "price": 4500
+}
+
+### 6. Видалення запису (DELETE -> 204 No Content, при повторі -> 404 Not Found)
+DELETE {{host}}/api/photoshoots/{{id}}
+
+### 7. Перевірка помилки валідації схеми (400 Bad Request + details)
+POST {{host}}/api/photoshoots
+Content-Type: application/json
+
+{
+  "title": "А",
+  "category": "wrong",
+  "price": -100
+}
